@@ -9,44 +9,33 @@
 
 <style>
 
-/* ============================= */
-/* 2025 CALM LUXURY DARK SYSTEM  */
-/* Designed for an Introvert Girl */
-/* ============================= */
+/* Calm luxury theme */
 
 :root{
   --bg:#0f111a;
   --card:#161925;
-  --softGlow: rgba(255,255,255,0.06);
   --primary:#c8b6ff;
   --secondary:#b8f2e6;
   --text:#f4f4f7;
   --muted:#b0b3c6;
   --radius:18px;
-  --blur:20px;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Inter',sans-serif;
 }
 
 body{
+  margin:0;
+  font-family:'Inter',sans-serif;
   background: radial-gradient(circle at 20% 30%, #1a1c2c, #0f111a 60%);
   color:var(--text);
   overflow-x:hidden;
-  scroll-behavior:smooth;
 }
 
-/* Background floating particles */
+/* floating particles */
 
 .particle{
   position:fixed;
   width:4px;
   height:4px;
-  background:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.15);
   border-radius:50%;
   animation:float 12s linear infinite;
 }
@@ -56,16 +45,13 @@ body{
   to{transform:translateY(-10vh);}
 }
 
-/* Section layout */
-
 section{
   min-height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding:40px 20px;
+  padding:20px;
   opacity:0;
   transform:translateY(40px);
   transition:1s ease;
@@ -78,34 +64,19 @@ section.show{
 
 .card{
   background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(var(--blur));
+  backdrop-filter:blur(20px);
   border-radius:var(--radius);
   padding:40px;
   max-width:600px;
-  box-shadow:0 0 40px var(--softGlow);
+  box-shadow:0 0 40px rgba(255,255,255,0.05);
 }
 
 h1{
   font-size:3rem;
-  font-weight:700;
   background:linear-gradient(45deg,var(--primary),var(--secondary));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
-
-h2{
-  margin-bottom:20px;
-  font-weight:600;
-  color:var(--primary);
-}
-
-p{
-  margin:15px 0;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-/* Button */
 
 button{
   margin-top:25px;
@@ -116,50 +87,72 @@ button{
   color:#000;
   font-weight:600;
   cursor:pointer;
-  transition:.3s;
 }
 
-button:hover{
-  transform:scale(1.05);
+/* floating hearts */
+
+.heartFloat{
+  position:fixed;
+  font-size:20px;
+  animation:floatUp 3s linear forwards;
+  pointer-events:none;
 }
 
-/* Heart animation */
-
-.heart{
-  font-size:3rem;
-  animation:beat 1.5s infinite;
+@keyframes floatUp{
+  from{transform:translateY(0); opacity:1;}
+  to{transform:translateY(-150px); opacity:0;}
 }
 
-@keyframes beat{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.2);}
+/* sparkle burst */
+
+.sparkle{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  animation:spark 1s linear forwards;
 }
 
-/* Fade text reveal */
-
-.fadeText{
-  opacity:0;
-  transition:1s ease;
+@keyframes spark{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
 }
 
-.fadeText.show{
-  opacity:1;
-}
+/* glow aura */
 
-/* Footer */
+.glow{
+  box-shadow:0 0 60px rgba(200,182,255,0.4);
+  transition:1s;
+}
 
 footer{
-  padding:20px;
   text-align:center;
+  padding:20px;
   color:var(--muted);
+}
+
+.music{
+  position:fixed;
+  top:20px;
+  right:20px;
+  cursor:pointer;
+  opacity:0.7;
 }
 
 </style>
 </head>
-
 <body>
 
-<!-- Soft floating particles -->
+<!-- background music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8b1c5a9c5.mp3">
+</audio>
+
+<div class="music" onclick="toggleMusic()">🎵</div>
+
 <script>
 for(let i=0;i<40;i++){
   let p=document.createElement("div");
@@ -170,80 +163,113 @@ for(let i=0;i<40;i++){
 }
 </script>
 
-<!-- Section 1 -->
 <section class="show">
   <div class="card">
-    <h1>Happy Birthday  🤍</h1>
-    <p>To Aadiya , who makes the world softer just by existing.</p>
+    <h1>Happy Birthday 🤍</h1>
+    <p>To Aadiya, who makes the world softer just by existing.</p>
     <button onclick="nextSection(1)">Tap Gently ✨</button>
   </div>
 </section>
 
-<!-- Section 2 -->
 <section>
   <div class="card">
     <h2>You Are Different</h2>
-    <p>Not loud. Not trying to impress anyone.</p>
-    <p>But quietly magical in your own way.</p>
+    <p>In a world chasing attention,</p>
+    <p>You remain rare - calm , genuine , and beautifully real.</p>
     <button onclick="nextSection(2)">Keep Going 🌙</button>
   </div>
 </section>
 
-<!-- Section 3 -->
 <section>
   <div class="card">
     <h2>Your Silence Speaks</h2>
-    <p>There is something beautiful about the way you think deeply,</p>
-    <p>feel intensely, and love quietly.</p>
-    <button onclick="nextSection(3)">One More 🤍</button>
+    <p id="typeText"></p>
+    <button onclick="nextSection(3); typeWriter()">One More 🤍</button>
   </div>
 </section>
 
-<!-- Section 4 -->
 <section>
   <div class="card">
     <h2>Today Is Yours</h2>
-    <p class="fadeText">May this year bring you calm happiness.</p>
-    <p class="fadeText">May you feel understood.</p>
-    <p class="fadeText">May you always feel valued.</p>
-    <div class="heart">🤍</div>
-    <button onclick="revealText()">Final Surprise 🎁</button>
+    <p>May this year bring you calm happiness.</p>
+    <p>May you feel understood.</p>
+    <p>May you always feel valued.</p>
+    <button onclick="finalSurprise()">Final Surprise 🎁</button>
   </div>
 </section>
 
-<!-- Section 5 -->
 <section>
-  <div class="card">
+  <div class="card" id="finalCard">
     <h2>Just One Honest Thing...</h2>
-    <p>You don't need to change yourself for anyone.</p>
+    <p>You bring a quite warmth to the world just by being yourself.</p>
     <p>Your quiet strength is rare.</p>
-    <p>And I’m really grateful you exist.</p>
-    <h2 style="margin-top:30px;">Happy Birthday Aadiya 🌸</h2>
+    <p>I hope today reminds you how special you truly are and fills your heart with peace and gentle happiness.</p>
+    <h2 style="margin-top:30px;">Happy Birthday Aadiya 💖🫶 </h2>
   </div>
 </section>
 
-<footer>
-Made with genuine feelings 🤍
-</footer>
+<footer>Made with genuine feelings 🤍</footer>
 
 <script>
 
 const sections=document.querySelectorAll("section");
 
-function nextSection(index){
-  sections[index].classList.remove("show");
-  sections[index+1].classList.add("show");
-  window.scrollTo({top:sections[index+1].offsetTop,behavior:'smooth'});
+function nextSection(i){
+  sections[i].classList.add("show");
+  window.scrollTo({top:sections[i].offsetTop,behavior:'smooth'});
 }
 
-function revealText(){
-  document.querySelectorAll(".fadeText").forEach(el=>{
-    el.classList.add("show");
-  });
-  nextSection(3);
+/* floating hearts on click */
+document.addEventListener("click", e=>{
+  let heart=document.createElement("div");
+  heart.className="heartFloat";
+  heart.innerHTML="🎈🎊";
+  heart.style.left=e.clientX+"px";
+  heart.style.top=e.clientY+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),3000);
+});
+
+/* typewriter effect */
+function typeWriter(){
+  const text="There is something beautiful about the way you think deeply, feel intensely, and love quietly.";
+  let i=0;
+  const speed=40;
+  function type(){
+    if(i<text.length){
+      document.getElementById("typeText").innerHTML+=text.charAt(i);
+      i++;
+      setTimeout(type,speed);
+    }
+  }
+  type();
+}
+
+/* sparkle burst */
+function finalSurprise(){
+  nextSection(4);
+  document.getElementById("finalCard").classList.add("glow");
+
+  for(let i=0;i<40;i++){
+    let s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=window.innerWidth/2+"px";
+    s.style.top=window.innerHeight/2+"px";
+    s.style.setProperty('--x',(Math.random()*300-150)+"px");
+    s.style.setProperty('--y',(Math.random()*300-150)+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1000);
+  }
+}
+
+/* music toggle */
+function toggleMusic(){
+  const music=document.getElementById("bgMusic");
+  music.paused ? music.play() : music.pause();
 }
 
 </script>
-
 </body>
 </html>
+
+
